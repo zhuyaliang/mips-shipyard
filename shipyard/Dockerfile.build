@@ -1,0 +1,5 @@
+FROM docker.isoft.zhcn.cc/zhuyaliang/golang:latest
+ENV TAG latest
+ENV PATH $PATH:/go/bin:/usr/local/go/bin
+COPY . /go/src/github.com/shipyard/shipyard
+WORKDIR /go/src/github.com/shipyard/shipyard

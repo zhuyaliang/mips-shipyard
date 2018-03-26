@@ -1,0 +1,70 @@
+<div class="ui padded grid">
+<div class="row" ng-show="vm.error">
+    <div class="column">
+        <div class="ui error message">
+            <div class="header">错误...</div>
+            <p>{{vm.error}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="column">
+        <div class="ui segment">
+            <div class="ui form" ng-submit="vm.addRegistry()" ng-method="post">
+                <h4 class="ui dividing header">仓库细节</h4>
+                <label>名称</label>
+                <div class="field">
+                    <input type="text" name="name" ng-model="vm.name" placeholder="Name of registry (i.e. local)">
+                </div>
+                <label>仓库地址</label>
+                <div class="field">
+                    <input type="text" name="addr" ng-model="vm.addr" placeholder="Registry Addr (i.e. http://10.1.2.3:5000)">
+                </div>
+                <label>用户名</label>
+                <div class="field">
+                    <input type="text" name="username" ng-model="vm.username" placeholder="Username">
+                </div>
+                <label>密码</label>
+                <div class="field">
+                    <input type="password" name="password" ng-model="vm.password" placeholder="Password">
+                </div>
+                <div class="field">
+                    <div class="ui checkbox" ng-click="vm.tls.tlsSkipVerify=!vm.tls.tlsSkipVerify">
+                      <input type="checkbox" ng-model="vm.tls.tlsSkipVerify">
+                      <label>跳过TCL认证</label>
+                    </div>
+                </div>
+                <div class="ui hidden divider"></div>
+                <div class="ui green submit button">增加仓库</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+$(function(){
+    $('.ui.form')
+        .form({
+            name: {
+                identifier : 'name',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : '请输入名称!'
+                }
+                ]
+            },
+            addr: {
+                identifier : 'addr',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : '请输入地址'
+                }
+                ]
+            }
+        });
+
+    $('.ui.checkbox').checkbox();
+});
+</script>

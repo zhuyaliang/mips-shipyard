@@ -1,0 +1,60 @@
+<div>
+<div style="background-color: rgba(0, 68, 91, 1); position: absolute; top: 0; left: 0; height: 100%; width: 100%; text-align: center;">
+    <div style="max-width: 25rem; margin: 0 auto;">
+        <h1 style="margin-top: 50px; margin-bottom: 50px; font-family: 'Poiret One', sans-serif; font-size: 30px; color: #ffffff;">极云--GeekCloud</br>容器云</br>管理平台</h1>
+        <div class="ui form" style="background-color: rgba(255, 255, 255, 0.5); padding: 30px; border-radius: 25px;" ng-submit="vm.login()">
+            <div class="ui negative icon message" ng-show="vm.error">
+                <i class="warning sign icon"></i>
+                <div class="content">
+                    <div class="header">
+                        {{vm.error}}
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left labeled icon input">
+                    <input name="username" placeholder="username" type="text" ng-model="vm.username">
+                    <i class="user icon"></i>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left labeled icon input">
+                    <input name="password" placeholder="password" type="password" ng-model="vm.password">
+                    <i class="lock icon"></i>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="ui blue submit button">Login</div>
+            </div>
+        </div>
+    </div>
+<div class="footer_bottom">     
+    </br></br>      
+<p> <span style="color:white;">Copyright &copy; 2017. GeekCloud All rights reserved.</span> <a href="http://geekfan.top">GeekFan--Funky</a></p></div>
+</div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('.ui.form')
+        .form({
+            username: {
+                identifier : 'username',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : '请输入用户名!'
+                }
+                ]
+            },
+            password: {
+                identifier : 'password',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : '密码不能为空!'
+                }
+                ]
+            }
+        });
+});
+</script>

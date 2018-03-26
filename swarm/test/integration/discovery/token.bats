@@ -1,0 +1,62 @@
+#!/usr/bin/env bats
+
+load discovery_helpers
+
+TOKEN=""
+DISCOVERY=""
+
+#function token_cleanup() {
+#	[ -z "$TOKEN" ] && return
+#	echo "Removing $TOKEN"
+#	curl -X DELETE "https://discovery.hub.docker.com/v1/clusters/$TOKEN"
+#}
+
+#function setup() {
+#	TOKEN=$(swarm create)
+#	[[ "$TOKEN" =~ ^[0-9a-f]{32}$ ]]
+#	DISCOVERY="token://$TOKEN"
+#}
+
+#function teardown() {
+#	swarm_manage_cleanup
+#	swarm_join_cleanup
+#	stop_docker
+#	token_cleanup
+#}
+
+# This is not the recommended way of discovery. It's not
+# prioritized on Docker hub. Disable the test for now.
+@test "token discovery: recover engines" {
+skip
+
+	# The goal of this test is to ensure swarm can see engines that joined
+	# while the manager was stopped.
+
+	# Start 2 engines and make them join the cluster.
+	start_docker 2
+	swarm_join "$DISCOVERY"
+	retry 5 1 discovery_check_swarm_list "$DISCOVERY"
+
+	# Then, start a manager and ensure it sees all the engines.
+	swarm_manage "$DISCOVERY"
+	retry 5 1 discovery_check_swarm_info
+}
+
+# This is not the recommended way of discovery. It's not
+# prioritized on Docker hub. Disable the test for now.
+@test "token discovery: watch for changes" {
+skip
+
+	# The goal of this test is to ensure swarm can see new nodes as they join
+	# the cluster.
+
+	# Start a manager with no engines.
+	swarm_manage "$DISCOVERY"
+	retry 10 1 discovery_check_swarm_info
+
+	# Add engines to the cluster and make sure it's picked up by swarm.
+	start_docker 2
+	swarm_join "$DISCOVERY"
+	retry 5 1 discovery_check_swarm_list "$DISCOVERY"
+	retry 5 1 discovery_check_swarm_info
+}

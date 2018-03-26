@@ -1,0 +1,88 @@
+<div class="ui small remove modal transition" style="margin-top: -98px;">
+<i class="close icon"></i>
+<div class="header">
+    移除仓库: {{ vm.selectedRepository.name }}<span ng-show="vm.selectedRepository.tag">:{{ vm.selectedRepository.tag }}</span>
+</div>
+<div class="content">
+    <p>你确定要移除该仓库?</p>
+</div>
+<div class="actions">
+    <div class="ui negative button">
+        No
+    </div>
+    <div ng-click="vm.removeRepository()" class="ui positive right labeled icon button">
+        Yes
+        <i class="checkmark icon"></i>
+    </div>
+</div>
+</div>
+
+<div class="ui padded grid">
+    <div class="two column row">
+        <div class="left floated column">
+            <div ng-click="vm.refresh()" class="ui small blue labeled icon button">
+                <i class="refresh icon"></i> 刷新 
+            </div>
+        </div>
+    
+        <div class="right aligned right floated column">
+            <div class="ui small icon input">
+                <input ng-model="tableFilter" placeholder="Search repositories..."/>
+                <i class="search icon"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" ng-show="vm.repositories.length === 0">
+        <div class="column">
+            <div class="ui icon message">
+                <i class="info icon"></i>
+                <div class="content">
+                    <div class="header">
+                        仓库
+                    </div>
+                    <p>没有仓库.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" ng-hide="vm.repositories.length === 0">
+    <div class="column">
+    <table class="ui sortable celled table">
+        <thead ng-hide="">
+            <tr>
+                <th>仓库地址 URL</th>
+                <th>仓库名</th>
+                <th>标记</th>
+                <th>层</th>
+				<th>架构</th>
+                <th>大小</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="r in vm.repositories | filter:tableFilter">
+                <td>{{r.registryUrl}}</td>
+                <td>{{r.name}}</td>
+                <td>{{r.tag}}</td>
+                <td>{{r.fsLayers.length}}</td>
+				<td>{{r.architecture}}</td>
+                <td>{{r.size / 1048576 | number:2}} MB</td>
+                <td><i class="ui warning yellow sign icon" ng-show="r.hasProblems"></i>{{r.message}}</td>
+                <td class="collapsing">
+                    <div  ng-show="!r.hasProblems" ui-sref="dashboard.inspectRepository({registryId: vm.registryId, repositoryName: r.name, repositoryTag: r.tag})" class="compact ui icon button">
+                        <i class="search icon"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+
+<script>
+    $('.ui.sortable.celled.table').tablesort();
+</script>
