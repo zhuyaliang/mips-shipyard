@@ -24,7 +24,7 @@ func (a *Api) execContainer(ws *websocket.Conn) {
 		return
 	}
 
-	log.Debugf("starting exec session: container=%s cmd=%s", containerId, command)
+	log.Errorf("starting exec session: container=%s cmd=%s", containerId, command)
 	clientUrl := a.manager.DockerClient().URL
 
 	execConfig := &dockerclient.ExecConfig{
